@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкеты исследования — Восприятие рекламных материалов</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf9f7;
+  --white:#ffffff;
+  --ink:#1a1814;
+  --muted:#6b6760;
+  --border:#e8e4de;
+  --accent:#c4531a;
+  --accent-light:#fdf0ea;
+  --blue:#1a4a8a;
+  --blue-light:#eef3fb;
+  --green:#1a6b3a;
+  --green-light:#edf7f1;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;letter-spacing:-0.02em;color:var(--ink)}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:8px}
+.nav-btn{background:none;border:1px solid var(--border);padding:6px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--muted);transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink)}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:5rem 2rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:1.5rem;letter-spacing:.04em;text-transform:uppercase}
+.hero h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;line-height:1.15;letter-spacing:-0.02em;margin-bottom:1.5rem}
+.hero-desc{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:2rem}
+.hero-meta{display:flex;flex-direction:column;gap:8px}
+.meta-item{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.meta-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.hero-visual{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;flex-direction:column;gap:12px}
+.q-mock{background:var(--bg);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted);border-left:3px solid var(--accent)}
+.q-mock strong{display:block;color:var(--ink);font-size:13px;margin-bottom:8px;font-weight:500}
+.opt-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.opt{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--muted)}
+
+/* SECTION */
+.section{max-width:1100px;margin:0 auto;padding:1rem 2rem 4rem}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;margin-bottom:2rem;letter-spacing:-0.01em}
+
+/* SURVEY CARDS */
+.survey-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+.survey-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s}
+.survey-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.card-header{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--border)}
+.card-num{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;line-height:1.3;margin-bottom:.5rem}
+.card-tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.tag-sex{background:var(--accent-light);color:var(--accent)}
+.tag-neutral{background:var(--green-light);color:var(--green)}
+.card-body{padding:1.5rem}
+.card-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.card-stat:last-child{border-bottom:none}
+.card-stat-label{color:var(--muted)}
+.card-stat-val{font-weight:500;font-size:13px}
+.card-footer{padding:1rem 1.5rem;background:var(--bg);display:flex;justify-content:space-between;align-items:center}
+.view-btn{background:var(--ink);color:var(--white);border:none;padding:8px 20px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+.view-btn:hover{background:var(--accent)}
+
+/* QUESTIONNAIRE VIEW */
+.questionnaire{display:none;background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.questionnaire.active{display:block}
+.q-header{padding:2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.q-header-info h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;margin-bottom:.25rem}
+.q-header-info p{font-size:14px;color:var(--muted)}
+.close-btn{background:none;border:1px solid var(--border);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.close-btn:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.q-content{padding:2rem}
+.q-page{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border)}
+.q-page:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.page-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.question-item{margin-bottom:1.5rem}
+.question-item:last-child{margin-bottom:0}
+.q-num{font-size:12px;color:var(--muted);margin-bottom:.25rem}
+.q-text{font-size:15px;font-weight:500;margin-bottom:.75rem;line-height:1.5}
+.q-options{display:flex;flex-direction:column;gap:6px}
+.q-opt{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.q-opt::before{content:'';width:14px;height:14px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0}
+.matrix-preview{overflow-x:auto;margin-top:.5rem}
+.matrix-preview table{width:100%;border-collapse:collapse;font-size:12px}
+.matrix-preview th{background:var(--bg);padding:6px 10px;text-align:center;color:var(--muted);font-weight:500;border:1px solid var(--border)}
+.matrix-preview td{padding:6px 10px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+.matrix-preview td:first-child{text-align:left;background:var(--bg)}
+.scale-dots{display:flex;gap:6px;margin-top:.5rem}
+.scale-dot{width:20px;height:20px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)}
+.note-block{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:var(--blue);margin-top:.75rem}
+.media-placeholder{background:var(--bg);border:2px dashed var(--border);border-radius:8px;padding:2rem;text-align:center;margin:.75rem 0;color:var(--muted);font-size:13px}
+
+/* STRUCTURE */
+.structure-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.struct-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.struct-num{font-size:32px;font-weight:300;color:var(--accent);font-family:'Playfair Display',serif;line-height:1}
+.struct-label{font-size:13px;font-weight:500;margin:.5rem 0 .25rem}
+.struct-desc{font-size:12px;color:var(--muted)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:13px;color:var(--muted);margin-top:2rem}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem 2rem}
+  .hero h1{font-size:30px}
+  .hero-visual{display:none}
+  .survey-grid{grid-template-columns:1fr}
+  .structure-grid{grid-template-columns:repeat(2,1fr)}
+  .section{padding:1rem 1.5rem 3rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">Исследование<span>.</span></div>
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showSection('home')">Главная</button>
+      <button class="nav-btn" onclick="showSection('surveys')">Анкеты</button>
+      <button class="nav-btn" onclick="showSection('structure')">Структура</button>
+    </nav>
+  </div>
+</header>
+
+<div id="section-home">
+  <div class="hero">
+    <div>
+      <div class="hero-badge">Курсовая работа · 2026</div>
+      <h1>Восприятие рекламных материалов брендов</h1>
+      <p class="hero-desc">Исследование влияния сексуализации в рекламе на бренд-метрики: доверие, лояльность и намерение покупки. Три экспериментальные группы — сексуализированная реклама (женщины), сексуализированная реклама (мужчины) и нейтральный контроль.</p>
+      <div class="hero-meta">
+        <div class="meta-item"><div class="meta-dot"></div>3 анкеты · 3 бренда в каждой</div>
+        <div class="meta-item"><div class="meta-dot"></div>28 вопросов · ~10–15 минут</div>
+        <div class="meta-item"><div class="meta-dot"></div>Рандомизация порядка брендов</div>
+        <div class="meta-item"><div class="meta-dot"></div>Яндекс Задания · Россия</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="q-mock">
+        <strong>Оцените, насколько Вы согласны...</strong>
+        <div class="opt-row">
+          <div class="opt">1</div><div class="opt">2</div><div class="opt">3</div>
+          <div class="opt">4</div><div class="opt">5</div><div class="opt">6</div><div class="opt">7</div>
+        </div>
+      </div>
+      <div class="q-mock">
+        <strong>Слышали ли Вы ранее про бренд?</strong>
+        <div class="opt-row">
+          <div class="opt">Да, слышал(а)</div>
+          <div class="opt">Нет, не слышал(а)</div>
+        </div>
+      </div>
+      <div class="q-mock" style="border-left-color:var(--blue)">
+        <strong>Рандомизация порядка брендов</strong>
+        Каждый респондент видит IRNBY, PIMS и Calvin Klein в случайном порядке
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="section-surveys" style="display:none">
+<div class="section">
+  <div class="section-label">Инструментарий</div>
+  <div class="section-title">Три экспериментальных условия</div>
+  <div class="survey-grid">
+
+    <div class="survey-card" onclick="openSurvey(1)">
+      <div class="card-header">
+        <div class="card-num">Анкета 1</div>
+        <div class="card-title">Сексуализированная реклама — женские образы</div>
+        <span class="card-tag tag-sex">Экспериментальная</span>
+      </div>
+      <div class="card-body">
+        <div class="card-stat"><span class="card-stat-label">IRNBY</span><span class="card-stat-val">Пост · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">PIMS</span><span class="card-stat-val">Видео</span></div>
+        <div class="card-stat"><span class="card-stat-label">Calvin Klein</span><span class="card-stat-val">Реклама · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">Контрольные вопросы</span><span class="card-stat-val">3 (→ 6 → 1)</span></div>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;color:var(--muted)">28 вопросов</span>
+        <button class="view-btn">Просмотреть →</button>
+      </div>
+    </div>
+
+    <div class="survey-card" onclick="openSurvey(2)">
+      <div class="card-header">
+        <div class="card-num">Анкета 2</div>
+        <div class="card-title">Сексуализированная реклама — мужские образы</div>
+        <span class="card-tag tag-sex">Экспериментальная</span>
+      </div>
+      <div class="card-body">
+        <div class="card-stat"><span class="card-stat-label">IRNBY</span><span class="card-stat-val">Пост · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">PIMS</span><span class="card-stat-val">Видео</span></div>
+        <div class="card-stat"><span class="card-stat-label">Calvin Klein</span><span class="card-stat-val">Реклама · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">Контрольные вопросы</span><span class="card-stat-val">3 (→ 6 → 1)</span></div>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;color:var(--muted)">28 вопросов</span>
+        <button class="view-btn">Просмотреть →</button>
+      </div>
+    </div>
+
+    <div class="survey-card" onclick="openSurvey(3)">
+      <div class="card-header">
+        <div class="card-num">Анкета 3</div>
+        <div class="card-title">Нейтральный рекламный материал — контроль</div>
+        <span class="card-tag tag-neutral">Контрольная</span>
+      </div>
+      <div class="card-body">
+        <div class="card-stat"><span class="card-stat-label">IRNBY</span><span class="card-stat-val">Материал · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">PIMS</span><span class="card-stat-val">Видео</span></div>
+        <div class="card-stat"><span class="card-stat-label">Calvin Klein</span><span class="card-stat-val">Материал · фото</span></div>
+        <div class="card-stat"><span class="card-stat-label">Контрольные вопросы</span><span class="card-stat-val">3 (→ 6 → 1)</span></div>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;color:var(--muted)">28 вопросов</span>
+        <button class="view-btn">Просмотреть →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SURVEY 1 -->
+  <div class="questionnaire" id="survey-1">
+    <div class="q-header">
+      <div class="q-header-info">
+        <h2>Анкета 1 — Сексуализированная реклама (женские образы)</h2>
+        <p>IRNBY · PIMS · Calvin Klein · порядок рандомизирован</p>
+      </div>
+      <button class="close-btn" onclick="closeSurvey()">✕</button>
+    </div>
+    <div class="q-content">
+
+      <div class="q-page">
+        <div class="page-label">Страница 1 — Демография</div>
+        <div class="question-item">
+          <div class="q-num">Вопрос 1</div>
+          <div class="q-text">Ваш пол *</div>
+          <div class="q-options">
+            <div class="q-opt">Мужской</div>
+            <div class="q-opt">Женский</div>
+          </div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">Вопрос 2</div>
+          <div class="q-text">Ваш возраст *</div>
+          <div style="font-size:13px;color:var(--muted)">Свободный ответ · целое число · от 18</div>
+        </div>
+      </div>
+
+      <div class="q-page">
+        <div class="page-label">Страница 2 — Поведение</div>
+        <div class="question-item">
+          <div class="q-num">Вопрос 3</div>
+          <div class="q-text">Как часто Вы пользуетесь социальными сетями? *</div>
+          <div class="q-options">
+            <div class="q-opt">Постоянно (несколько раз в час)</div>
+            <div class="q-opt">Несколько раз в день</div>
+            <div class="q-opt">Раз в день</div>
+            <div class="q-opt">Несколько раз в неделю</div>
+            <div class="q-opt">Раз в неделю или реже</div>
+            <div class="q-opt">Не пользуюсь</div>
+          </div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">Вопрос 4</div>
+          <div class="q-text">Как часто Вы совершаете покупки онлайн? *</div>
+          <div class="q-options">
+            <div class="q-opt">Никогда</div>
+            <div class="q-opt">Реже одного раза в несколько месяцев</div>
+            <div class="q-opt">Раз в несколько месяцев</div>
+            <div class="q-opt">Раз в месяц</div>
+            <div class="q-opt">Несколько раз в месяц</div>
+            <div class="q-opt">Раз в неделю</div>
+            <div class="q-opt">Несколько раз в неделю</div>
+            <div class="q-opt">Почти ежедневно</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-page">
+        <div class="page-label">Страницы 3–8 — Блоки брендов (порядок рандомизирован)</div>
+        <div class="note-block">Каждый респондент видит три бренда в случайном порядке. Для каждого бренда: сначала претест (страница N), затем стимул и посттест (страница N+1).</div>
+        <br>
+
+        <div class="question-item">
+          <div class="q-num">Претест — Вопросы 5–7 / 13–15 / 21–23</div>
+          <div class="q-text">Слышали ли Вы ранее про бренд [БРЕНД]? *</div>
+          <div class="q-options"><div class="q-opt">Да, слышал(а)</div><div class="q-opt">Нет, не слышал(а)</div></div>
+        </div>
+        <div class="question-item">
+          <div class="q-text">Покупали ли Вы продукты бренда [БРЕНД]? *</div>
+          <div class="q-options"><div class="q-opt">Да, покупал(а)</div><div class="q-opt">Нет, не покупал(а)</div></div>
+        </div>
+        <div class="question-item">
+          <div class="q-text">Оцените утверждения, описывающие бренд [БРЕНД] <span style="color:var(--muted);font-size:13px">(если слышали или покупали)</span></div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+              <tr><td>Я доверяю этому бренду</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я могу положиться на этот бренд</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я считаю этот бренд честным</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я считаю этот бренд надёжным</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="question-item" style="margin-top:2rem">
+          <div class="q-num">Посттест — Вопросы 8–12 / 16–20 / 24–28</div>
+          <div class="media-placeholder">📷 Стимул: пост / видео / реклама бренда [БРЕНД]</div>
+          <div class="q-text">Оцените утверждения в отношении представленного материала *</div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+              <tr><td>В посте/видео/рекламе сделан акцент на сексуальной привлекательности</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Образ персонажа носит эротический характер</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Тело персонажа изображается как сексуальный объект</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="question-item">
+          <div class="q-text">Контрольный вопрос — отметьте вариант «X» *</div>
+          <div class="note-block">Проверочный вопрос: неверный ответ → дисквалификация респондента</div>
+          <div class="scale-dots" style="margin-top:.75rem">
+            <div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div>
+            <div class="scale-dot">4</div><div class="scale-dot">5</div><div class="scale-dot">6</div><div class="scale-dot">7</div>
+          </div>
+        </div>
+
+        <div class="question-item">
+          <div class="q-text">Намерение поделиться — оцените утверждения *</div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+              <tr><td>Этот материал заслуживает того, чтобы им поделились</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы порекомендовал(а) этот материал другим</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы поставил(а) лайк в соцсетях</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы поделился(лась) в соцсетях</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы оставил(а) комментарий</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы зашёл(зашла) на сайт бренда</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я бы зашёл(зашла) на страницу бренда в соцсетях</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="question-item">
+          <div class="q-text">Намерение покупки — биполярная шкала *</div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Левый полюс</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th style="text-align:left">Правый полюс</th></tr>
+              <tr><td>Никогда</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Обязательно</td></tr>
+              <tr><td>Совсем не намерен(а) покупать</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Точно намерен(а) купить</td></tr>
+              <tr><td>Очень низкий интерес</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Очень высокий интерес</td></tr>
+              <tr><td>Точно не куплю</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Точно куплю</td></tr>
+              <tr><td>Скорее не куплю</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Скорее куплю</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="question-item">
+          <div class="q-text">Доверие к бренду (посттест) *</div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+              <tr><td>Я доверяю этому бренду</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я могу положиться на этот бренд</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я считаю этот бренд честным</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Я считаю этот бренд надёжным</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SURVEY 2 -->
+  <div class="questionnaire" id="survey-2">
+    <div class="q-header">
+      <div class="q-header-info">
+        <h2>Анкета 2 — Сексуализированная реклама (мужские образы)</h2>
+        <p>IRNBY · PIMS · Calvin Klein · порядок рандомизирован</p>
+      </div>
+      <button class="close-btn" onclick="closeSurvey()">✕</button>
+    </div>
+    <div class="q-content">
+      <div class="q-page">
+        <div class="note-block">Структура анкеты 2 идентична анкете 1. Отличие — стимульный материал: использованы рекламные изображения/видео с мужскими образами для тех же трёх брендов (IRNBY, PIMS, Calvin Klein). Все вопросы, шкалы и логика дисквалификации идентичны.</div>
+      </div>
+      <div class="q-page">
+        <div class="page-label">Стимульный материал</div>
+        <div class="question-item">
+          <div class="media-placeholder">📷 IRNBY — мужской образ (фото)</div>
+        </div>
+        <div class="question-item">
+          <div class="media-placeholder">🎬 PIMS — видео (мужские образы)</div>
+        </div>
+        <div class="question-item">
+          <div class="media-placeholder">📷 Calvin Klein — мужской образ (фото)</div>
+        </div>
+        <div class="note-block" style="margin-top:1rem">Контрольные вопросы: IRNBY → 3, PIMS → 6, Calvin Klein → 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SURVEY 3 -->
+  <div class="questionnaire" id="survey-3">
+    <div class="q-header">
+      <div class="q-header-info">
+        <h2>Анкета 3 — Нейтральный материал (контрольная группа)</h2>
+        <p>IRNBY · PIMS · Calvin Klein · порядок рандомизирован</p>
+      </div>
+      <button class="close-btn" onclick="closeSurvey()">✕</button>
+    </div>
+    <div class="q-content">
+      <div class="q-page">
+        <div class="note-block">Контрольная анкета. Стимульный материал не содержит сексуализированных образов. Формулировки вопросов адаптированы: «пост» и «реклама» заменены на «материал» для IRNBY и Calvin Klein. PIMS сохраняет формулировку «видео».</div>
+      </div>
+      <div class="q-page">
+        <div class="page-label">Стимульный материал — нейтральный</div>
+        <div class="question-item">
+          <div class="media-placeholder">📷 IRNBY — нейтральный материал (фото)</div>
+        </div>
+        <div class="question-item">
+          <div class="media-placeholder">🎬 PIMS — нейтральное видео</div>
+        </div>
+        <div class="question-item">
+          <div class="media-placeholder">📷 Calvin Klein — нейтральный материал (фото)</div>
+        </div>
+      </div>
+      <div class="q-page">
+        <div class="page-label">Адаптированные формулировки (IRNBY и Calvin Klein)</div>
+        <div class="question-item">
+          <div class="q-text">Оцените утверждения в отношении представленного материала бренда *</div>
+          <div class="matrix-preview">
+            <table>
+              <tr><th style="text-align:left">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+              <tr><td>В материале сделан акцент на сексуальной привлекательности персонажа</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Образ персонажа носит эротический характер</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>Тело персонажа изображается в материале как сексуальный объект</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="note-block" style="margin-top:1rem">Контрольные вопросы: IRNBY → 3, PIMS → 6, Calvin Klein → 1</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div id="section-structure" style="display:none">
+<div class="section">
+  <div class="section-label">Дизайн исследования</div>
+  <div class="section-title">Структура инструментария</div>
+  <div class="structure-grid">
+    <div class="struct-card">
+      <div class="struct-num">3</div>
+      <div class="struct-label">Экспериментальные группы</div>
+      <div class="struct-desc">Сексуализация (жен.) · Сексуализация (муж.) · Нейтральная</div>
+    </div>
+    <div class="struct-card">
+      <div class="struct-num">3</div>
+      <div class="struct-label">Бренда в каждой анкете</div>
+      <div class="struct-desc">IRNBY · PIMS · Calvin Klein в рандомном порядке</div>
+    </div>
+    <div class="struct-card">
+      <div class="struct-num">28</div>
+      <div class="struct-label">Вопросов в анкете</div>
+      <div class="struct-desc">Демография · Претест · Стимул · Посттест</div>
+    </div>
+    <div class="struct-card">
+      <div class="struct-num">30</div>
+      <div class="struct-label">Переменных в данных</div>
+      <div class="struct-desc">Все ответы + порядок брендов + статус дисквалификации</div>
+    </div>
+  </div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem">
+    <div class="page-label">Логика анкеты для каждого бренда</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem">
+      <div style="text-align:center;padding:1rem;background:var(--blue-light);border-radius:12px">
+        <div style="font-size:24px;font-weight:300;color:var(--blue);font-family:'Playfair Display',serif">1</div>
+        <div style="font-size:13px;font-weight:500;margin:.5rem 0 .25rem">Претест</div>
+        <div style="font-size:12px;color:var(--muted)">Знакомость с брендом · Доверие (условно)</div>
+      </div>
+      <div style="text-align:center;padding:1rem;background:var(--accent-light);border-radius:12px">
+        <div style="font-size:24px;font-weight:300;color:var(--accent);font-family:'Playfair Display',serif">2</div>
+        <div style="font-size:13px;font-weight:500;margin:.5rem 0 .25rem">Стимул</div>
+        <div style="font-size:12px;color:var(--muted)">Рекламный материал бренда</div>
+      </div>
+      <div style="text-align:center;padding:1rem;background:var(--green-light);border-radius:12px">
+        <div style="font-size:24px;font-weight:300;color:var(--green);font-family:'Playfair Display',serif">3</div>
+        <div style="font-size:13px;font-weight:500;margin:.5rem 0 .25rem">Посттест</div>
+        <div style="font-size:12px;color:var(--muted)">Сексуализация · Шеринг · Покупка · Доверие</div>
+      </div>
+      <div style="text-align:center;padding:1rem;background:var(--bg);border-radius:12px;border:1px solid var(--border)">
+        <div style="font-size:24px;font-weight:300;font-family:'Playfair Display',serif">✓</div>
+        <div style="font-size:13px;font-weight:500;margin:.5rem 0 .25rem">Контроль</div>
+        <div style="font-size:12px;color:var(--muted)">Проверочный вопрос с дисквалификацией</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  Исследование восприятия рекламных материалов · Курсовая работа · 2026
+</footer>
+
+<script>
+function showSection(id) {
+  ['home','surveys','structure'].forEach(s => {
+    document.getElementById('section-' + s).style.display = s === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['home','surveys','structure'][i] === id);
+  });
+  window.scrollTo(0, 0);
+}
+
+function openSurvey(n) {
+  document.querySelectorAll('.questionnaire').forEach(q => q.classList.remove('active'));
+  document.getElementById('survey-' + n).classList.add('active');
+  document.getElementById('survey-' + n).scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function closeSurvey() {
+  document.querySelectorAll('.questionnaire').forEach(q => q.classList.remove('active'));
+}
+</script>
+</body>
+</html>

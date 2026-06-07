@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Materials — Sexualized Advertising Study</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       background: #f6f5f3; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
+
+.page-header { background: #fff; border-bottom: 1px solid #ddd; padding: 1.25rem 2rem; }
+.page-header h1 { font-size: 17px; font-weight: 600; }
+.page-header p  { font-size: 12px; color: #888; margin-top: 2px; }
+
+.tabs { display: flex; background: #fff; border-bottom: 1px solid #ddd;
+        padding: 0 2rem; position: sticky; top: 0; z-index: 10; }
+.tab  { padding: 11px 22px; font-size: 13px; font-weight: 500; cursor: pointer;
+        border: none; background: none; color: #888;
+        border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap; }
+.tab:hover { color: #1a1a1a; }
+.tab.t1.active { color: #b84a16; border-bottom-color: #b84a16; }
+.tab.t2.active { color: #1a4080; border-bottom-color: #1a4080; }
+.tab.t3.active { color: #1a6030; border-bottom-color: #1a6030; }
+
+.condition { display: none; max-width: 860px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+.condition.active { display: block; }
+
+.cond-label { display: inline-block; font-size: 11px; font-weight: 700;
+              letter-spacing: .07em; text-transform: uppercase;
+              padding: 4px 12px; border-radius: 20px; margin-bottom: 1.5rem; }
+.t1 .cond-label { background: #fdeee7; color: #b84a16; }
+.t2 .cond-label { background: #e8eef9; color: #1a4080; }
+.t3 .cond-label { background: #e6f4ec; color: #1a6030; }
+
+/* DEMO BLOCK */
+.demo-block { background: #fff; border: 1px solid #ddd; border-radius: 10px;
+              padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+.block-title { font-size: 10px; font-weight: 700; letter-spacing: .09em;
+               text-transform: uppercase; color: #aaa; margin-bottom: 1rem; }
+.q-row { margin-bottom: .9rem; }
+.q-row:last-child { margin-bottom: 0; }
+.q-text { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+.opts   { display: flex; flex-direction: column; gap: 3px; padding-left: 4px; }
+.opt    { font-size: 12px; color: #666; display: flex; align-items: center; gap: 7px; }
+.opt::before { content:''; width:11px; height:11px; border:1.5px solid #ccc;
+               border-radius:50%; flex-shrink:0; }
+.note   { background: #f0f4ff; border-left: 3px solid #6080d0;
+          border-radius: 0 6px 6px 0; padding: 8px 12px; font-size: 12px;
+          color: #3050a0; margin: .75rem 0; }
+
+/* BRAND BLOCK */
+.brand-block { background: #fff; border: 1px solid #ddd; border-radius: 10px;
+               overflow: hidden; margin-bottom: 1.25rem; }
+.brand-head  { display: flex; align-items: baseline; gap: 10px;
+               padding: .9rem 1.5rem; border-bottom: 1px solid #eee; }
+.brand-name  { font-size: 16px; font-weight: 700; }
+.brand-sub   { font-size: 12px; color: #999; }
+.brand-body  { padding: 1.25rem 1.5rem; }
+
+/* PRETEST */
+.pretest { background: #f9f8f6; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
+
+/* STIMULUS */
+.stim-label { font-size: 10px; font-weight: 700; letter-spacing: .09em;
+              text-transform: uppercase; color: #aaa; margin-bottom: .6rem; }
+.stim-img   { width: 100%; max-height: 440px; object-fit: contain;
+              border-radius: 6px; background: #f0f0ee; display: block; }
+.stim-video { width: 100%; aspect-ratio: 16/9; border-radius: 6px; border: none;
+              display: block; }
+.stim-wrap  { margin-bottom: 1.25rem; }
+
+/* ATTENTION */
+.attn { background: #fffbe6; border: 1px solid #e8d040;
+        border-radius: 6px; padding: 8px 12px; font-size: 12px; margin-bottom: 1.25rem; }
+.attn strong { font-weight: 700; margin-right: 6px; }
+
+/* SCALE TABLES */
+.scale-wrap { margin-bottom: 1.25rem; }
+.scale-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 5px; }
+.scale-table th { padding: 5px 6px; text-align: center; background: #f5f5f3;
+                  border: 1px solid #e0e0e0; color: #888; font-weight: 600;
+                  min-width: 28px; }
+.scale-table th.item-col { text-align: left; min-width: auto; width: 50%; }
+.scale-table th.pole { text-align: left; min-width: auto; font-weight: 400;
+                       color: #666; font-size: 11px; }
+.scale-table td { padding: 6px 8px; border: 1px solid #e8e8e8; }
+.scale-table td.item-cell { background: #faf9f8; font-size: 12px; }
+.scale-table td.c { text-align: center; color: #bbb; font-size: 13px; }
+.scale-note { font-size: 11px; color: #999; margin-bottom: 4px; }
+.abridged { font-size: 12px; color: #aaa; font-style: italic; margin-top: .75rem;
+            padding: .6rem 1rem; background: #f9f8f6; border-radius: 6px; }
+
+hr { border: none; border-top: 1px solid #eee; margin: 1.1rem 0; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Survey Materials — Sexualized Advertising Study</h1>
+  <p>Pilot study · НИУ ВШЭ · 2026 · N = 87 · Between-subjects · 3 conditions · 3 brands</p>
+</div>
+
+<div class="tabs">
+  <button class="tab t1 active" onclick="show(1)">Condition 1 — Female-sexualized</button>
+  <button class="tab t2"        onclick="show(2)">Condition 2 — Male-sexualized</button>
+  <button class="tab t3"        onclick="show(3)">Condition 3 — Neutral control</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CONDITION 1 — FEMALE-SEXUALIZED
+════════════════════════════════════════════════ -->
+<div class="condition t1 active" id="c1">
+<div class="cond-label">Condition 1 · Female-sexualized imagery · n = 28</div>
+
+<!-- Demographics -->
+<div class="demo-block">
+  <div class="block-title">Screen 1 — Demographics (identical in all three conditions)</div>
+  <div class="q-row">
+    <div class="q-text">1. Ваш пол *</div>
+    <div class="opts">
+      <div class="opt">Мужской</div>
+      <div class="opt">Женский</div>
+    </div>
+  </div>
+  <div class="q-row">
+    <div class="q-text">2. Ваш возраст *</div>
+    <div style="font-size:12px;color:#999;padding-left:18px">Числовой ввод · от 18</div>
+  </div>
+  <hr>
+  <div class="q-row">
+    <div class="q-text">3. Как часто Вы пользуетесь социальными сетями? *</div>
+    <div class="opts">
+      <div class="opt">Постоянно (несколько раз в час)</div>
+      <div class="opt">Несколько раз в день</div>
+      <div class="opt">Раз в день</div>
+      <div class="opt">Несколько раз в неделю</div>
+      <div class="opt">Раз в неделю или реже</div>
+      <div class="opt">Не пользуюсь</div>
+    </div>
+  </div>
+  <div class="q-row" style="margin-top:.75rem">
+    <div class="q-text">4. Как часто Вы совершаете покупки онлайн? *</div>
+    <div class="opts">
+      <div class="opt">Никогда</div>
+      <div class="opt">Реже одного раза в несколько месяцев</div>
+      <div class="opt">Раз в несколько месяцев</div>
+      <div class="opt">Раз в месяц</div>
+      <div class="opt">Несколько раз в месяц</div>
+      <div class="opt">Раз в неделю</div>
+      <div class="opt">Несколько раз в неделю</div>
+      <div class="opt">Почти ежедневно</div>
+    </div>
+  </div>
+</div>
+
+<div class="note">Порядок трёх брендовых блоков рандомизировался индивидуально для каждого участника. Ниже показан один из возможных порядков: IRNBY → PIMS → Calvin Klein.</div>
+
+<!-- ─── BRAND: IRNBY C1 ─── -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">IRNBY</div>
+    <div class="brand-sub">Спортивная одежда · пост в соцсетях · фото</div>
+  </div>
+  <div class="brand-body">
+
+    <div class="pretest">
+      <div class="block-title">Претест — знакомость с брендом</div>
+      <div class="q-row">
+        <div class="q-text">Слышали ли Вы ранее про бренд IRNBY? *</div>
+        <div class="opts"><div class="opt">Да, слышал(а)</div><div class="opt">Нет, не слышал(а)</div></div>
+      </div>
+      <div class="q-row">
+        <div class="q-text">Покупали ли Вы продукты бренда IRNBY? *</div>
+        <div class="opts"><div class="opt">Да, покупал(а)</div><div class="opt">Нет, не покупал(а)</div></div>
+      </div>
+      <div class="q-row" style="margin-top:.75rem">
+        <div class="q-text" style="font-size:12px;color:#666">Если ответили «Да» хотя бы на один вопрос — доверие к бренду до стимула (4 пункта, шкала 1–7):</div>
+        <table class="scale-table" style="margin-top:.6rem">
+          <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+          <tr><td class="item-cell">Я доверяю этому бренду</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td class="item-cell">Я могу положиться на этот бренд при покупках</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td class="item-cell">Я считаю этот бренд честным</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td class="item-cell">Я считаю этот бренд надёжным</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — рекламный пост IRNBY (женский образ)</div>
+      <img class="stim-img" src="https://i.postimg.cc/CMPFNmFC/irnby-ad2-woman.jpg" alt="IRNBY female-sexualized">
+    </div>
+
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «3» — проверка внимания. Неверный ответ → дисквалификация.</div>
+
+    <div class="scale-wrap">
+      <div class="block-title">Воспринимаемая сексуализация — 3 пункта (Reichert et al., 2001; Sengupta &amp; Dahl, 2008)</div>
+      <div class="scale-note">Оцените рекламный пост IRNBY: 1 = полностью не согласен, 7 = полностью согласен</div>
+      <table class="scale-table">
+        <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+        <tr><td class="item-cell">В посте сделан акцент на сексуальной привлекательности персонажа</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Образ персонажа носит эротический характер</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Тело персонажа изображается в посте как сексуальный объект</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+      </table>
+    </div>
+
+    <div class="scale-wrap">
+      <div class="block-title">Намерение поделиться — 7 пунктов (VBI-Ad; Alhabash et al., 2015)</div>
+      <div class="scale-note">1 = полностью не согласен, 7 = полностью согласен</div>
+      <table class="scale-table">
+        <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+        <tr><td class="item-cell">Этот пост заслуживает того, чтобы им поделились</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы порекомендовал(а) этот пост другим</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы поставил(а) лайк этому посту в соцсетях</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы поделился(лась) этим постом в соцсетях (репост, сторис)</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы оставил(а) комментарий к этому посту</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы перешёл(ла) на сайт бренда IRNBY</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я бы перешёл(ла) на страницу бренда IRNBY в соцсетях</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+      </table>
+    </div>
+
+    <div class="scale-wrap">
+      <div class="block-title">Намерение покупки — 5 пунктов, биполярная шкала (Spears &amp; Singh, 2004)</div>
+      <div class="scale-note">Если бы Вы выбирали спортивную одежду, насколько вероятно, что Вы выбрали бы IRNBY?</div>
+      <table class="scale-table">
+        <tr><th class="pole">←</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th class="pole">→</th></tr>
+        <tr><td class="item-cell">Никогда</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="item-cell">Обязательно</td></tr>
+        <tr><td class="item-cell">Совсем не намерен(а) покупать</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="item-cell">Точно намерен(а) купить</td></tr>
+        <tr><td class="item-cell">Очень низкий интерес к покупке</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="item-cell">Очень высокий интерес</td></tr>
+        <tr><td class="item-cell">Точно не куплю</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="item-cell">Точно куплю</td></tr>
+        <tr><td class="item-cell">Скорее не куплю</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="item-cell">Скорее куплю</td></tr>
+      </table>
+    </div>
+
+    <div class="scale-wrap">
+      <div class="block-title">Доверие к бренду — посттест, 4 пункта (Chaudhuri &amp; Holbrook, 2001)</div>
+      <table class="scale-table">
+        <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+        <tr><td class="item-cell">Я доверяю этому бренду</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я могу положиться на этот бренд при покупках</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я считаю этот бренд честным</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Я считаю этот бренд надёжным</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── BRAND: PIMS C1 ─── -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">PIMS</div>
+    <div class="brand-sub">Bubble tea · видео</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест — знакомость с брендом (идентично IRNBY)</div>
+      <div style="font-size:12px;color:#999">Слышали / покупали → доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — видео PIMS (женский образ)</div>
+      <iframe class="stim-video" src="https://kinescope.io/embed/qRGEc9UAP1moPgxpGpd6Zi" allowfullscreen></iframe>
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «6».</div>
+    <div class="abridged">Шкалы посттеста идентичны блоку IRNBY (воспринимаемая сексуализация, намерение поделиться, намерение покупки, доверие), с заменой названия бренда и продуктовой категории на «напиток» и формулировки «пост» на «видео».</div>
+  </div>
+</div>
+
+<!-- ─── BRAND: CK C1 ─── -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">Calvin Klein</div>
+    <div class="brand-sub">Нижнее бельё · рекламный материал · фото</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест — знакомость с брендом (идентично IRNBY)</div>
+      <div style="font-size:12px;color:#999">Слышали / покупали → доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — реклама Calvin Klein (женский образ)</div>
+      <img class="stim-img" src="https://i.postimg.cc/k5yjP8SK/ck-ad2-woman.jpg" alt="CK female-sexualized">
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «1».</div>
+    <div class="abridged">Шкалы посттеста идентичны блоку IRNBY, с заменой названия бренда, продуктовой категории на «нижнее бельё» и формулировки «пост» на «реклама».</div>
+  </div>
+</div>
+
+</div><!-- /c1 -->
+
+
+<!-- ═══════════════════════════════════════════════
+     CONDITION 2 — MALE-SEXUALIZED
+════════════════════════════════════════════════ -->
+<div class="condition t2" id="c2">
+<div class="cond-label">Condition 2 · Male-sexualized imagery · n = 29</div>
+
+<div class="demo-block">
+  <div class="block-title">Screen 1 — Demographics (identical to Condition 1)</div>
+  <div style="font-size:12px;color:#999">Вопросы 1–4 полностью идентичны во всех трёх условиях.</div>
+</div>
+
+<div class="note">Порядок брендовых блоков рандомизировался индивидуально. Ниже: IRNBY → PIMS → Calvin Klein.</div>
+
+<!-- IRNBY C2 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">IRNBY</div>
+    <div class="brand-sub">Спортивная одежда · пост в соцсетях · фото</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условию 1)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — рекламный пост IRNBY (мужской образ)</div>
+      <img class="stim-img" src="https://i.postimg.cc/DzcC3sGd/Irnby-ad1-man.jpg" alt="IRNBY male-sexualized">
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «3».</div>
+    <div class="abridged">Шкалы посттеста идентичны условию 1 (сексуализация, шеринг, покупка, доверие).</div>
+  </div>
+</div>
+
+<!-- PIMS C2 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">PIMS</div>
+    <div class="brand-sub">Bubble tea · видео</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условию 1)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — видео PIMS (мужской образ)</div>
+      <iframe class="stim-video" src="https://kinescope.io/embed/mFhq56UzDg8RSSjZXs72Fr" allowfullscreen></iframe>
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «6».</div>
+    <div class="abridged">Шкалы посттеста идентичны условию 1.</div>
+  </div>
+</div>
+
+<!-- CK C2 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">Calvin Klein</div>
+    <div class="brand-sub">Нижнее бельё · рекламный материал · фото</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условию 1)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — реклама Calvin Klein (мужской образ)</div>
+      <img class="stim-img" src="https://i.postimg.cc/2j1Phchr/ck-ad1-men.png" alt="CK male-sexualized">
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «1».</div>
+    <div class="abridged">Шкалы посттеста идентичны условию 1.</div>
+  </div>
+</div>
+
+</div><!-- /c2 -->
+
+
+<!-- ═══════════════════════════════════════════════
+     CONDITION 3 — NEUTRAL CONTROL
+════════════════════════════════════════════════ -->
+<div class="condition t3" id="c3">
+<div class="cond-label">Condition 3 · Neutral control · n = 30</div>
+
+<div class="demo-block">
+  <div class="block-title">Screen 1 — Demographics (identical to Conditions 1–2)</div>
+  <div style="font-size:12px;color:#999">Вопросы 1–4 полностью идентичны во всех трёх условиях.</div>
+</div>
+
+<div class="note">Порядок брендовых блоков рандомизировался индивидуально. Ниже: IRNBY → PIMS → Calvin Klein. Формулировки шкалы сексуализации адаптированы: «пост» и «реклама» заменены на «материал» для IRNBY и CK.</div>
+
+<!-- IRNBY C3 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">IRNBY</div>
+    <div class="brand-sub">Спортивная одежда · нейтральный материал · фото</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условиям 1–2)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — нейтральный материал IRNBY</div>
+      <img class="stim-img" src="https://i.postimg.cc/FKxPXcSx/irnby-ad3-neutral-(1).png" alt="IRNBY neutral">
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «3».</div>
+    <div class="scale-wrap" style="margin-top:.75rem">
+      <div class="block-title">Воспринимаемая сексуализация — адаптированная формулировка (нейтральное условие)</div>
+      <div class="scale-note">«Пост» заменён на «материал» · 1 = полностью не согласен, 7 = полностью согласен</div>
+      <table class="scale-table">
+        <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+        <tr><td class="item-cell">В материале сделан акцент на сексуальной привлекательности персонажа</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Образ персонажа носит эротический характер</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Тело персонажа изображается в материале как сексуальный объект</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+      </table>
+    </div>
+    <div class="abridged">Остальные шкалы идентичны условию 1 (шеринг, покупка, доверие посттест).</div>
+  </div>
+</div>
+
+<!-- PIMS C3 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">PIMS</div>
+    <div class="brand-sub">Bubble tea · нейтральное видео</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условиям 1–2)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — нейтральное видео PIMS</div>
+      <iframe class="stim-video" src="https://kinescope.io/embed/bSbpUTna6sJQ8zXL5geuLZ" allowfullscreen></iframe>
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «6».</div>
+    <div class="abridged">Формулировки шкалы сексуализации — «видео» (без изменений). Остальные шкалы идентичны условию 1.</div>
+  </div>
+</div>
+
+<!-- CK C3 -->
+<div class="brand-block">
+  <div class="brand-head">
+    <div class="brand-name">Calvin Klein</div>
+    <div class="brand-sub">Нижнее бельё · нейтральный материал · фото</div>
+  </div>
+  <div class="brand-body">
+    <div class="pretest">
+      <div class="block-title">Претест (идентично условиям 1–2)</div>
+      <div style="font-size:12px;color:#999">Знакомость + условное доверие до стимула (4 пункта)</div>
+    </div>
+    <div class="stim-wrap">
+      <div class="stim-label">Стимул — нейтральный материал Calvin Klein</div>
+      <img class="stim-img" src="https://i.postimg.cc/s2JnCSW4/ck-ad3-neutral.png" alt="CK neutral">
+    </div>
+    <div class="attn"><strong>Контрольный вопрос:</strong> Выберите вариант «1».</div>
+    <div class="scale-wrap" style="margin-top:.75rem">
+      <div class="block-title">Воспринимаемая сексуализация — адаптированная формулировка</div>
+      <div class="scale-note">«Реклама» заменена на «материал»</div>
+      <table class="scale-table">
+        <tr><th class="item-col">Утверждение</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+        <tr><td class="item-cell">В материале сделан акцент на сексуальной привлекательности персонажа</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Образ персонажа носит эротический характер</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        <tr><td class="item-cell">Тело персонажа изображается в материале как сексуальный объект</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+      </table>
+    </div>
+    <div class="abridged">Остальные шкалы идентичны условию 1.</div>
+  </div>
+</div>
+
+</div><!-- /c3 -->
+
+<footer style="text-align:center;padding:2rem;font-size:11px;color:#bbb;border-top:1px solid #e8e8e8;margin-top:1rem">
+  Pilot study on sexualized advertising &nbsp;·&nbsp; НИУ ВШЭ &nbsp;·&nbsp; 2026
+</footer>
+
+<script>
+function show(n) {
+  ['c1','c2','c3'].forEach(function(id, i) {
+    document.getElementById(id).classList.toggle('active', i + 1 === n);
+  });
+  document.querySelectorAll('.tab').forEach(function(t, i) {
+    t.classList.toggle('active', i + 1 === n);
+  });
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
